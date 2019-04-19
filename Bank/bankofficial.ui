@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>433</width>
-    <height>332</height>
+    <height>327</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -92,16 +92,71 @@
      <string>Crear cuenta</string>
     </property>
    </widget>
-  </widget>
-  <widget class="QMenuBar" name="menuBar">
-   <property name="geometry">
-    <rect>
-     <x>0</x>
-     <y>0</y>
-     <width>433</width>
-     <height>22</height>
-    </rect>
-   </property>
+   <widget class="QPushButton" name="deposit">
+    <property name="geometry">
+     <rect>
+      <x>300</x>
+      <y>60</y>
+      <width>121</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Depositar dinero</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="withdrawal">
+    <property name="geometry">
+     <rect>
+      <x>310</x>
+      <y>100</y>
+      <width>111</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Retirar dinero</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Block_Unblock">
+    <property name="geometry">
+     <rect>
+      <x>200</x>
+      <y>220</y>
+      <width>221</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Bloquear o desbloquear cuenta</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Consulaccount">
+    <property name="geometry">
+     <rect>
+      <x>290</x>
+      <y>140</y>
+      <width>131</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Consultar cuenta</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Consultarclient">
+    <property name="geometry">
+     <rect>
+      <x>288</x>
+      <y>180</y>
+      <width>131</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Consultar cliente</string>
+    </property>
+   </widget>
   </widget>
   <widget class="QToolBar" name="mainToolBar">
    <attribute name="toolBarArea">
@@ -112,6 +167,16 @@
    </attribute>
   </widget>
   <widget class="QStatusBar" name="statusBar"/>
+  <widget class="QMenuBar" name="menuBar">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>0</y>
+     <width>433</width>
+     <height>22</height>
+    </rect>
+   </property>
+  </widget>
  </widget>
  <layoutdefault spacing="6" margin="11"/>
  <resources/>

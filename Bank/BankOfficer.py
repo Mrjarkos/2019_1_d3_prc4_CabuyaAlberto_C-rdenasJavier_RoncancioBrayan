@@ -1,10 +1,19 @@
 # -*- coding: utf-8 -*-
 import sys
+import os
 from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QFileDialog, QWidget, QMessageBox, QTableWidget, QTableWidgetItem)
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import QTimer,QRegExp
+from PyQt5 import QtCore, QtGui
+from PyQt5.QtCore import QTimer,QRegExp, QThread
 from PyQt5.QtGui import QPixmap,QImage,QRegExpValidator
 import threading
+
+class Mostrarlist(QMainWindow):
+	"""docstring for Mostrarlist"""
+	def __init__(self):
+		super(Mostrarlist, self).__init__(None)
+		loadUi('mostar.ui',self)
+		
 
 class BankOfficerinterface(QMainWindow):
 	"""docstring for ClassName"""
@@ -12,7 +21,26 @@ class BankOfficerinterface(QMainWindow):
 		super(BankOfficerinterface, self).__init__(None)
 		loadUi('bankofficial.ui',self)
 		self.bankfunk=BankOfficer()
+		self.Mostrarcuentas.clicked.connect(self.Mostrarcuentas_clicked)
+		##self.mostrarlist
+		##self.mostrarlist.setWindowModality(QtCore.Qt.ApplicationModal)
+		self.thradq= QThread()
+	def Mostrarcuentas_clicked(self):
+		self.thradq.started.connect(self.mostraracclist)
+		self.thradq.start()
+
+		##th1= threading.Thread(target=self.mostraracclist)
+		##th1.start()
 		
+	def mostraracclist(self):
+		self.mostrarlist=Mostrarlist()
+		self.mostrarlist.show()
+		self.thradq.quit()
+
+
+
+
+
 
 class BankOfficer():
     def __init__(self):
@@ -21,6 +49,7 @@ class BankOfficer():
     	self.clientes= []
     	self.accnum=0
     	self.cuentasgen=[]
+
     	pass
     def create_client(self,name1,name2,id,age,contra,initialvalue):
     	
@@ -146,15 +175,6 @@ class BankOfficer():
 
 app= QApplication(sys.argv)
 ui=BankOfficerinterface()
-ui.bankfunk.create_client("kk","el",10,19,"kss",1000)
-ui.bankfunk.create_client("kk2","el2",12,19,"kss",1000)
-ui.bankfunk.create_client("kk2","el2",13,19,"kss",1000)
-print(ui.bankfunk.create_accoun(12,"kks2",10))
-print(ui.bankfunk.Block_Unblockacc(2,"kss","Block"))
-print(ui.bankfunk.withdrawal(3, 10,"kks2"))
-print(ui.bankfunk.transfer_money(0,"kss",1, 1000))
-print(ui.bankfunk.clientes)
-print(ui.bankfunk.cuentasgen)
-ui.show()
+ui.show() 
 ret= app.exec_()
 sys.exit(ret)
