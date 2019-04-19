@@ -1,7 +1,7 @@
 #ifndef BANKOFFICIAL_H
 #define BANKOFFICIAL_H
 
-#include <QMainWindow>
+#include <QtWidgets/QMainWindow>
 
 namespace Ui {
 class BankOfficial;

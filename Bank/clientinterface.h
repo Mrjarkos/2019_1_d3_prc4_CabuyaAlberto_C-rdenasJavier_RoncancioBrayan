@@ -1,8 +1,17 @@
 #ifndef CLIENTINTERFACE_H
 #define CLIENTINTERFACE_H
-#include "account.h"
-#include <QtWidgets/QMainWindow>
 
+#include <QtWidgets/QMainWindow>
+#include<QtWidgets/QMainWindow>
+#include <QList>
+#include <QStringList>
+#include <QString>
+#include <QtWidgets/QWidget>
+#include <QSharedPointer>
+#include <QHash>
+#include <QtWidgets/QDialog>
+#include<QtDebug>
+#include "client.h"
 namespace Ui {
 class ClientInterface;
 }
@@ -22,4 +31,4 @@ private:
     Ui::ClientInterface *ui;
 };
 
-#endif // CLIENTINTERFACE_H
+#endif  //CLIENTINTERFACE_H

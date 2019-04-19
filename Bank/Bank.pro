@@ -1,5 +1,5 @@
 QT -= gui
-
+QT+= widgets
 CONFIG += c++11 console
 CONFIG -= app_bundle
 
@@ -15,35 +15,21 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp \
+    main.cpp \
     account.cpp \
-    bank.cpp \
-    bankofficial.cpp \
     client.cpp \
     clientinterface.cpp \
-    main.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
-SUBDIRS += \
-    Bank.pro
-
 FORMS += \
-    bankofficial.ui \
-    clientinterface.ui
-
-DISTFILES += \
-    Bank.pro.user \
-    BankOfficer.py
+     clientinterface.ui
 
 HEADERS += \
     account.h \
-    bank.h \
-    bankofficial.h \
     client.h \
-    clientinterface.cpp.autosave \
     clientinterface.h \
-    clientinterface.h.autosave
+
