@@ -7,6 +7,7 @@ from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 import threading
+import time
 
 
 class Blockunint(QWidget):
@@ -119,9 +120,53 @@ class Getaccountdataac(QWidget):
 		QMessageBox.warning(self,"Resultado",msg)
 class Mostrarlist(QMainWindow):
 	"""docstring for Mostrarlist"""
-	def __init__(self):
+	def __init__(self, arg,op):
 		super(Mostrarlist, self).__init__(None)
 		loadUi('mostrar.ui',self)
+		self.argv= arg
+		if op==1:
+			self.mostrar_clientes()
+		if op==2:
+			self.mostrar_acc()
+			
+	def mostrar_clientes(self):
+		self.listWidget.clear()
+		cont=0
+		for z in self.argv.clientes:
+			cont+=1
+		for x in range(0,cont):
+			item= self.argv.clientes[x].copy()
+					##item[2]= str(item[2])
+					#item[3]= str(item[3])
+			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
+			self.listWidget.addItem(str1)
+					##time.sleep(2)
+	def mostrar_acc(self):
+		cont=0
+		cont3=0
+		#print(self.bankfunk.cuentasgen)
+		for z in self.argv.clientes:
+			cont+=1
+		for x in range(0,cont):
+			item= self.argv.clientes[x].copy()
+			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
+			cont2=0
+			for z in self.argv.clientes[x]:
+				cont2+=1
+			cont2=cont2-4
+			for y in range(0,cont2):				
+				item2= self.argv.cuentasgen[y+cont3].copy()
+				#item[2]= str(item[2])
+				#item[3]= str(item[3])
+				
+				item2[1]=str(item2[1])
+				#item2[2]=str(item2[2])
+				str2= " id: "+item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]
+				
+				item3= [str1, str2]
+				str3= ' cuenta: '.join(item3)
+				self.listWidget.addItem(str3)
+			cont3+=1
 class Getdataclient(QWidget):
 			"""docstring for Getdataclient"""
 			def __init__(self, arg):
@@ -142,6 +187,7 @@ class Getdataclient(QWidget):
 class BankOfficerinterface(QMainWindow):
 	"""docstring for ClassName"""
 	def __init__(self):
+
 		super(BankOfficerinterface, self).__init__(None)
 		loadUi('bankofficial.ui',self)
 		self.bankfunk=BankOfficer()
@@ -202,49 +248,17 @@ class BankOfficerinterface(QMainWindow):
 
 
 	def mostraracclist(self):
-		self.mostrarlist=Mostrarlist()
+		self.mostrarlist=Mostrarlist(self.bankfunk,1)
 		self.mostrarlist.setWindowTitle('Lista de clientes')
-		cont=0
-		for z in self.bankfunk.clientes:
-			cont+=1
-		for x in range(0,cont):
-			item= self.bankfunk.clientes[x].copy()
-			##item[2]= str(item[2])
-			#item[3]= str(item[3])
-			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
-			self.mostrarlist.listWidget.addItem(str1)
+		
 		##self.mostrarlist.listView.setViewMode(QtGui.QListView.I)
 		self.mostrarlist.label.setText("Lista de clientes guardados")
 		self.mostrarlist.show()
 		self.thradq.quit()
 	def mostrarcountlis(self):
-		self.mostrarlist2=Mostrarlist()	
+		self.mostrarlist2=Mostrarlist(self.bankfunk,2)	
 		self.mostrarlist2.setWindowTitle('Lista de cuentas')	
-		cont=0
-		cont3=0
-		#print(self.bankfunk.cuentasgen)
-		for z in self.bankfunk.clientes:
-			cont+=1
-		for x in range(0,cont):
-			item= self.bankfunk.clientes[x].copy()
-			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
-			cont2=0
-			for z in self.bankfunk.clientes[x]:
-				cont2+=1
-			cont2=cont2-4
-			for y in range(0,cont2):				
-				item2= self.bankfunk.cuentasgen[y+cont3].copy()
-				#item[2]= str(item[2])
-				#item[3]= str(item[3])
-				
-				item2[1]=str(item2[1])
-				#item2[2]=str(item2[2])
-				str2= " id: "+item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]
-				
-				item3= [str1, str2]
-				str3= ' cuenta: '.join(item3)
-				self.mostrarlist2.listWidget.addItem(str3)
-			cont3+=1
+		
 		##self.mostrarlist.listView.setViewMode(QtGui.QListView.I)
 		self.mostrarlist2.label.setText("Lista de cuentas guardadas")
 		self.mostrarlist2.show()
@@ -299,6 +313,7 @@ class BankOfficerinterface(QMainWindow):
 		self.Blockunblock= Blockunint(self.bankfunk)
 		self.Blockunblock.setWindowTitle("Cambiando estado de cuenta")
 		self.Blockunblock.show()
+		self.thradq10.quit()
 
 
 
