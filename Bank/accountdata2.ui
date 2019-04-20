@@ -82,7 +82,7 @@
     </rect>
    </property>
    <property name="text">
-    <string>Inserte la cantidad de dinero a insertar</string>
+    <string>Inserte la cantidad de dinero a depositar</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="money">

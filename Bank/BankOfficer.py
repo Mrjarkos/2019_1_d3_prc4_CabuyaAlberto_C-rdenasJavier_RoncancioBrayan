@@ -11,16 +11,35 @@ import threading
 
 class Getaccountdata(QWidget):
 	"""docstring for Getaccountdata"""
-	def __init__(self, arg):
+	def __init__(self, arg, tipo):
 		super(Getaccountdata, self).__init__(None)
 		loadUi('accountdata2.ui',self)
 		self.arg = arg
-		self.Ok.clicked.connect(self.Ok_clicked)
-	def Ok_clicked(self):
+		if tipo==0:
+			self.Ok.clicked.connect(self.Ok_clicked1)
+		elif tipo==1:
+			self.Ok.clicked.connect(self.Ok_clicked2)
+		elif tipo==2:
+			self.Ok.clicked.connect(self.Ok_clicked3)
+	def Ok_clicked1(self):
 		cc=self.cc.toPlainText()
 		contra= self.contrasea.toPlainText()
 		initmoney=self.money.toPlainText()
 		msg= self.arg.create_accoun(cc,contra,initmoney)
+		#print(self.arg.cuentasgen)
+		QMessageBox.warning(self,"Resultado",msg)
+	def Ok_clicked2(self):
+		cc=self.cc.toPlainText()
+		contra= self.contrasea.toPlainText()
+		initmoney=self.money.toPlainText()
+		msg= self.arg.Deposit(cc,initmoney)
+		#print(self.arg.cuentasgen)
+		QMessageBox.warning(self,"Resultado",msg)
+	def Ok_clicked3(self):
+		cc=self.cc.toPlainText()
+		contra= self.contrasea.toPlainText()
+		ammount=self.money.toPlainText()
+		msg= self.arg.withdrawal(cc, ammount, contra)
 		#print(self.arg.cuentasgen)
 		QMessageBox.warning(self,"Resultado",msg)
 class Getaccountdataac(QWidget):
@@ -73,11 +92,18 @@ class BankOfficerinterface(QMainWindow):
 		self.Crearcliente.clicked.connect(self.Crearcliente_clicked)
 		self.Crearcuenta.clicked.connect(self.Crearcuenta_clicked)
 		self.Modificardata.clicked.connect(self.Modificardata_clicked)
+		self.deposit.clicked.connect(self.Deposit_clicked)
+		self.withdrawal.clicked.connect(self.Withdrawal_clicked)
+		
 		self.thradq= QThread()
 		self.thradq2= QThread()
 		self.thradq3= QThread()
 		self.thradq4= QThread()
 		self.thradq5= QThread()
+		self.thradq6= QThread()
+		self.thradq7= QThread()
+
+
 	def Mostrarclientes_clicked(self):
 		self.thradq.started.connect(self.mostraracclist)
 		self.thradq.start()
@@ -93,6 +119,13 @@ class BankOfficerinterface(QMainWindow):
 	def Modificardata_clicked(self):
 		self.thradq5.started.connect(self.modificardat)
 		self.thradq5.start()
+	def Deposit_clicked(self):
+		self.thradq6.started.connect(self.depositmoney)
+		self.thradq6.start()
+	def Withdrawal_clicked(self):
+		self.thradq7.started.connect(self.withdraw_money)
+		self.thradq7.start()
+		
 
 
 	def mostraracclist(self):
@@ -105,7 +138,7 @@ class BankOfficerinterface(QMainWindow):
 			item= self.bankfunk.clientes[x].copy()
 			##item[2]= str(item[2])
 			#item[3]= str(item[3])
-			str1= "Cliente: "+" "+item[0]+" "+item[1]+' '+item[2]
+			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
 			self.mostrarlist.listWidget.addItem(str1)
 		##self.mostrarlist.listView.setViewMode(QtGui.QListView.I)
 		self.mostrarlist.label.setText("Lista de clientes guardados")
@@ -121,7 +154,7 @@ class BankOfficerinterface(QMainWindow):
 			cont+=1
 		for x in range(0,cont):
 			item= self.bankfunk.clientes[x].copy()
-			str1= "Cliente: "+" "+item[0]+" "+item[1]+' '+item[2]
+			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
 			cont2=0
 			for z in self.bankfunk.clientes[x]:
 				cont2+=1
@@ -133,8 +166,8 @@ class BankOfficerinterface(QMainWindow):
 				
 				item2[1]=str(item2[1])
 				#item2[2]=str(item2[2])
-				item2.pop(0)
-				str2= ' '.join(item2)				
+				str2= " id: "item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]
+				
 				item3= [str1, str2]
 				str3= ' cuenta: '.join(item3)
 				self.mostrarlist2.listWidget.addItem(str3)
@@ -149,7 +182,7 @@ class BankOfficerinterface(QMainWindow):
 		self.getclientdata1.show()
 		self.thradq3.quit()
 	def getaccountdata(self):
-		self.getaccountdata1= Getaccountdata(self.bankfunk)
+		self.getaccountdata1= Getaccountdata(self.bankfunk,0)
 		self.getaccountdata1.setWindowTitle("Account data")
 		self.getaccountdata1.show()
 		self.thradq4.quit()
@@ -162,6 +195,20 @@ class BankOfficerinterface(QMainWindow):
 		self.getaccountdata3.label_4.setText("Insete número de identificación vieja")
 		self.getaccountdata3.show()
 		self.thradq5.quit()
+	def depositmoney(self):
+		self.Depositt= Getaccountdata(self.bankfunk,1)
+		self.Depositt.setWindowTitle("Depositando")
+		self.Depositt.label.setText("Inserte id de la cuenta")
+		self.Depositt.label_2.setText(" ")
+		self.Depositt.contrasea.setReadOnly(True)
+		self.Depositt.show()
+		self.thradq6.quit()
+	def withdraw_money(self):
+		self.withawint= Getaccountdata(self.bankfunk,2)
+		self.withawint.setWindowTitle("Retirando")
+		self.withawint.label.setText("Inserte id de la cuenta")
+		self.withawint.show()
+		self.thradq7.quit()
 
 
 
@@ -269,25 +316,32 @@ class BankOfficer():
     def Deposit(self, idacc,ammount):
     	cont=0
     	for z in self.cuentasgen:
-    		if z[1]==idacc:
+    		##print(z[1])
+    		##print(idacc)
+    		if str(z[1])==idacc:
+
     			if z[3]=="Block":
     				return "cuenta bloqueada"
     			else:
-    				self.cuentasgen[cont][2]+=ammount
+
+    				amount2 = int(self.cuentasgen[cont][2])+int(ammount)
+    				self.cuentasgen[cont][2]=str(amount2)
     				self.update_account(idacc)
     				return "Deposito realizado"
     		cont+=1
+
     	return "Error al realizar el deposito cuenta inexistente"
     def withdrawal(self, idacc, ammount, key):
     	cont=0
     	for z in self.cuentasgen:
-    		if z[0]==key and z[1]==idacc:
+    		if z[0]==key and str(z[1])==idacc:
     			if z[3]== "Block":
     				return "Cuenta bloqueada"
-    			elif z[2]-ammount<0:
+    			elif int(z[2])-int(ammount)<0:
     				return "No se tienen los fondos suficientes en la cuenta"
     			else:
-    				self.cuentasgen[cont][2]-=ammount
+    				ammount2=int(self.cuentasgen[cont][2])-int(ammount)
+    				self.cuentasgen[cont][2]= str(ammount2)
     				self.update_account(idacc)
     				return "Retiro realizado"
     		cont+=1
