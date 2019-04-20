@@ -94,7 +94,7 @@ class BankOfficerinterface(QMainWindow):
 		self.Modificardata.clicked.connect(self.Modificardata_clicked)
 		self.deposit.clicked.connect(self.Deposit_clicked)
 		self.withdrawal.clicked.connect(self.Withdrawal_clicked)
-		
+
 		self.thradq= QThread()
 		self.thradq2= QThread()
 		self.thradq3= QThread()
@@ -166,7 +166,7 @@ class BankOfficerinterface(QMainWindow):
 				
 				item2[1]=str(item2[1])
 				#item2[2]=str(item2[2])
-				str2= " id: "item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]
+				str2= " id: "+item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]
 				
 				item3= [str1, str2]
 				str3= ' cuenta: '.join(item3)
