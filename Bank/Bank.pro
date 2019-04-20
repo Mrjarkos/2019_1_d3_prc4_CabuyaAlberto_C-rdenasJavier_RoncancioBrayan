@@ -30,7 +30,9 @@ FORMS += \
     mostar.ui \
     mostar.ui \
     dataclient.ui \
-    accountdata.ui
+    accountdata.ui \
+    accountdata2.ui \
+    accountdata2.ui
 
 HEADERS += \
     account.h \

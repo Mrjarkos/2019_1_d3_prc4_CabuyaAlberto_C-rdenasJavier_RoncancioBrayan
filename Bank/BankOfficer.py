@@ -13,9 +13,16 @@ class Getaccountdata(QWidget):
 	"""docstring for Getaccountdata"""
 	def __init__(self, arg):
 		super(Getaccountdata, self).__init__(None)
-		loadUi('accountdata.ui')
+		loadUi('accountdata2.ui',self)
 		self.arg = arg
-		
+		self.Ok.clicked.connect(self.Ok_clicked)
+	def Ok_clicked(self):
+		cc=self.cc.toPlainText()
+		contra= self.contrasea.toPlainText()
+		initmoney=self.money.toPlainText()
+		msg= self.arg.create_accoun(cc,contra,initmoney)
+		#print(self.arg.cuentasgen)
+		QMessageBox.warning(self,"Resultado",msg)
 class Mostrarlist(QMainWindow):
 	"""docstring for Mostrarlist"""
 	def __init__(self):
@@ -76,10 +83,7 @@ class BankOfficerinterface(QMainWindow):
 			item= self.bankfunk.clientes[x].copy()
 			##item[2]= str(item[2])
 			#item[3]= str(item[3])
-			item.pop()
-			item.pop()
-			str1= ' '.join(item)
-			str1= "Cliente: "+str1
+			str1= "Cliente: "+" "+item[0]+" "+item[1]+' '+item[2]
 			self.mostrarlist.listWidget.addItem(str1)
 		##self.mostrarlist.listView.setViewMode(QtGui.QListView.I)
 		self.mostrarlist.label.setText("Lista de clientes guardados")
@@ -89,37 +93,40 @@ class BankOfficerinterface(QMainWindow):
 		self.mostrarlist2=Mostrarlist()	
 		self.mostrarlist2.setWindowTitle('Lista de cuentas')	
 		cont=0
+		cont2=0
+		#print(self.bankfunk.cuentasgen)
 		for z in self.bankfunk.clientes:
 			cont+=1
+		for z in self.bankfunk.cuentasgen:
+			cont2+=1
 		for x in range(0,cont):
 			item= self.bankfunk.clientes[x].copy()
-			item2= self.bankfunk.cuentasgen[x].copy()
-			#item[2]= str(item[2])
-			#item[3]= str(item[3])
-			item.pop()
-			item.pop()
-			item2[1]=str(item2[1])
-			#item2[2]=str(item2[2])
-			item2.pop(0)
-			str2= ' '.join(item2)
-			str1= ' '.join(item)
-			str1= "Cliente: "+str1
-			item3= [str1, str2]
-			str3= ' cuenta: '.join(item3)
-			self.mostrarlist2.listWidget.addItem(str3)
+			str1= "Cliente: "+" "+item[0]+" "+item[1]+' '+item[2]
+			for y in range(0,cont2):				
+				item2= self.bankfunk.cuentasgen[y].copy()
+				#item[2]= str(item[2])
+				#item[3]= str(item[3])
+				
+				item2[1]=str(item2[1])
+				#item2[2]=str(item2[2])
+				item2.pop(0)
+				str2= ' '.join(item2)				
+				item3= [str1, str2]
+				str3= ' cuenta: '.join(item3)
+				self.mostrarlist2.listWidget.addItem(str3)
 		##self.mostrarlist.listView.setViewMode(QtGui.QListView.I)
 		self.mostrarlist2.label.setText("Lista de cuentas guardadas")
 		self.mostrarlist2.show()
 		self.thradq2.quit()
 	def getclientdata(self):
-		self.getclientdata= Getdataclient(self.bankfunk)
-		self.getclientdata.setWindowTitle("Client data")
-		self.getclientdata.show()
+		self.getclientdata1= Getdataclient(self.bankfunk)
+		self.getclientdata1.setWindowTitle("Client data")
+		self.getclientdata1.show()
 		self.thradq3.quit()
 	def getaccountdata(self):
-		self.getaccountdata= Getaccountdata(self.bankfunk)
-		self.getaccountdata.setWindowTitle("Account data")
-		self.getaccountdata.show()
+		self.getaccountdata1= Getaccountdata(self.bankfunk)
+		self.getaccountdata1.setWindowTitle("Account data")
+		self.getaccountdata1.show()
 		self.thradq4.quit()
 
 
