@@ -27,12 +27,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 FORMS += \
      clientinterface.ui \
-    mostar.ui \
-    mostar.ui \
-    dataclient.ui \
-    accountdata.ui \
-    accountdata2.ui \
-    accountdata2.ui
 
 HEADERS += \
     account.h \

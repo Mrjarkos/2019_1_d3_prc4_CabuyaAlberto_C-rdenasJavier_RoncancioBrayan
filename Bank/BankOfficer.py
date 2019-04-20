@@ -23,11 +23,28 @@ class Getaccountdata(QWidget):
 		msg= self.arg.create_accoun(cc,contra,initmoney)
 		#print(self.arg.cuentasgen)
 		QMessageBox.warning(self,"Resultado",msg)
+class Getaccountdataac(QWidget):
+	"""docstring for Getaccountdataac"""
+	def __init__(self, arg):
+		super(Getaccountdataac, self).__init__(None)
+		loadUi('dataclient.ui',self)
+		self.arg = arg
+		self.Ok.clicked.connect(self.Ok_clicked)
+	def Ok_clicked(self):
+		Name1= self.Name.toPlainText()
+		Lastname= self.Lastname.toPlainText()
+		cc=self.cc.toPlainText()
+		contra= self.contrasea.toPlainText()
+		oldid=self.money.toPlainText()
+		contra= self.contrasea.toPlainText()
+		msg= self.arg.update_client(Name1,Lastname,cc,oldid,contra)
+		#print(self.arg.cuentasgen)
+		QMessageBox.warning(self,"Resultado",msg)
 class Mostrarlist(QMainWindow):
 	"""docstring for Mostrarlist"""
 	def __init__(self):
 		super(Mostrarlist, self).__init__(None)
-		loadUi('mostar.ui',self)
+		loadUi('mostrar.ui',self)
 class Getdataclient(QWidget):
 			"""docstring for Getdataclient"""
 			def __init__(self, arg):
@@ -55,10 +72,12 @@ class BankOfficerinterface(QMainWindow):
 		self.Mostrarcuentas.clicked.connect(self.Mostrarcuentas_clicked)
 		self.Crearcliente.clicked.connect(self.Crearcliente_clicked)
 		self.Crearcuenta.clicked.connect(self.Crearcuenta_clicked)
+		self.Modificardata.clicked.connect(self.Modificardata_clicked)
 		self.thradq= QThread()
 		self.thradq2= QThread()
 		self.thradq3= QThread()
 		self.thradq4= QThread()
+		self.thradq5= QThread()
 	def Mostrarclientes_clicked(self):
 		self.thradq.started.connect(self.mostraracclist)
 		self.thradq.start()
@@ -71,6 +90,9 @@ class BankOfficerinterface(QMainWindow):
 	def Crearcuenta_clicked(self):
 		self.thradq4.started.connect(self.getaccountdata)
 		self.thradq4.start()
+	def Modificardata_clicked(self):
+		self.thradq5.started.connect(self.modificardat)
+		self.thradq5.start()
 
 
 	def mostraracclist(self):
@@ -93,17 +115,19 @@ class BankOfficerinterface(QMainWindow):
 		self.mostrarlist2=Mostrarlist()	
 		self.mostrarlist2.setWindowTitle('Lista de cuentas')	
 		cont=0
-		cont2=0
+		cont3=0
 		#print(self.bankfunk.cuentasgen)
 		for z in self.bankfunk.clientes:
 			cont+=1
-		for z in self.bankfunk.cuentasgen:
-			cont2+=1
 		for x in range(0,cont):
 			item= self.bankfunk.clientes[x].copy()
 			str1= "Cliente: "+" "+item[0]+" "+item[1]+' '+item[2]
+			cont2=0
+			for z in self.bankfunk.clientes[x]:
+				cont2+=1
+			cont2=cont2-4
 			for y in range(0,cont2):				
-				item2= self.bankfunk.cuentasgen[y].copy()
+				item2= self.bankfunk.cuentasgen[y+cont3].copy()
 				#item[2]= str(item[2])
 				#item[3]= str(item[3])
 				
@@ -114,6 +138,7 @@ class BankOfficerinterface(QMainWindow):
 				item3= [str1, str2]
 				str3= ' cuenta: '.join(item3)
 				self.mostrarlist2.listWidget.addItem(str3)
+			cont3+=1
 		##self.mostrarlist.listView.setViewMode(QtGui.QListView.I)
 		self.mostrarlist2.label.setText("Lista de cuentas guardadas")
 		self.mostrarlist2.show()
@@ -128,6 +153,15 @@ class BankOfficerinterface(QMainWindow):
 		self.getaccountdata1.setWindowTitle("Account data")
 		self.getaccountdata1.show()
 		self.thradq4.quit()
+	def modificardat(self):
+		self.getaccountdata3= Getaccountdataac(self.bankfunk)
+		self.getaccountdata3.setWindowTitle("Account data")
+		self.getaccountdata3.label.setText("Insete nuevo nombre del cliente")
+		self.getaccountdata3.label_2.setText("Insete nuevo apellido del cliente")
+		self.getaccountdata3.label_3.setText("Insete nuevo número de identificación")
+		self.getaccountdata3.label_4.setText("Insete número de identificación vieja")
+		self.getaccountdata3.show()
+		self.thradq5.quit()
 
 
 
@@ -158,18 +192,28 @@ class BankOfficer():
     	self.cuentasgen.append(self.cuentas)
     	return "Cliente creado"
     			
-    def update_client(self,name1,name2,newid,oldid):
-    	self.cliente= [name1,name2,newid]
+    def update_client(self,name1,name2,newid,oldid,contra):
+    	self.cliente2= [name1,name2,newid,contra]
     	i=0
     	for z in self.clientes:
-    		if z[2]==oldid:
-    			self.cliente.append(Z[3])
-    			self.cliente.append(z[4])
-    			self.clientes[i]=self.cliente
+    		if z[2]==oldid and z[3]==contra:
+    			
+    			for compronewid in self.clientes:
+    				
+    				if compronewid[2]==newid and compronewid[2]!=oldid:
+    					return "Id ya usado"
+    			listalen= len(self.clientes[i])
+    			for x in range(4,listalen):
+    				self.cliente2.append(z[x])
+    				#print(x)
+    				#print(z[x])
+    				#print(self.cliente2)
+    			self.clientes[i]=self.cliente2
+    			#print(self.clientes[i])
     			return "Exito"
     		else:    			
     			i+=1
-    	return "Cliente no encontrado"
+    	return "Cliente no encontrado, o clave incorrecta"
     def consul_client(self, id):
     	for z in self.clientes:
     		if z[2]== id:
