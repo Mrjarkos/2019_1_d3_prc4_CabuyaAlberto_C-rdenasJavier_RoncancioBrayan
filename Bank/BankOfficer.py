@@ -4,8 +4,8 @@ import os
 from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QFileDialog, QWidget, QMessageBox, QTableWidget, QTableWidgetItem)
 from PyQt5.uic import loadUi
 from PyQt5 import QtCore, QtGui
-from PyQt5.QtCore import QTimer,QRegExp, QThread
-from PyQt5.QtGui import QPixmap,QImage,QRegExpValidator
+from PyQt5.QtCore import *
+from PyQt5.QtGui import *
 import threading
 
 class Mostrarlist(QMainWindow):
@@ -28,14 +28,28 @@ class BankOfficerinterface(QMainWindow):
 	def Mostrarcuentas_clicked(self):
 		self.thradq.started.connect(self.mostraracclist)
 		self.thradq.start()
-
-		##th1= threading.Thread(target=self.mostraracclist)
-		##th1.start()
 		
+
 	def mostraracclist(self):
 		self.mostrarlist=Mostrarlist()
+		self.bankfunk.create_client("el","kks", 10, 19, "kks",10)
+		self.bankfunk.create_client("el","kks", 12, 19, "kks",10)
+
+		cont=0
+		for z in self.bankfunk.clientes:
+			cont+=1
+		for x in range(0,cont):
+			item= self.bankfunk.clientes[x]
+			item[2]= str(item[2])
+			item[3]= str(item[3])
+			item.pop()
+			str1= ' '.join(item)
+			self.mostrarlist.listWidget.addItem(str1)
+
+		##self.mostrarlist.listView.setViewMode(QtGui.QListView.I)
 		self.mostrarlist.show()
 		self.thradq.quit()
+
 
 
 
@@ -45,7 +59,7 @@ class BankOfficerinterface(QMainWindow):
 class BankOfficer():
     def __init__(self):
     	
-    	
+    	##self.clientesolo= []
     	self.clientes= []
     	self.accnum=0
     	self.cuentasgen=[]
@@ -60,6 +74,7 @@ class BankOfficer():
     			self.cliente= [name1,name2,id,age] 
     			self.cuentas= [contra,self.accnum, initialvalue, "Unblock"] ##0 significa cuenta desbloqueada
     			self.accnum+=1
+    			##self.clientesolo.append(self.cliente)
     			self.cliente.append(self.cuentas)
     			self.clientes.append(self.cliente)
     			self.cuentasgen.append(self.cuentas)
@@ -67,6 +82,7 @@ class BankOfficer():
     	self.cliente= [name1,name2,id,age] ## Se hace este debido a que si no hay cuentas no se entra al ciclo for in
     	self.cuentas= [contra,self.accnum, initialvalue,"Unblock"]
     	self.accnum+=1
+    	##self.clientesolo.append(self.cliente)
     	self.cliente.append(self.cuentas)
     	self.clientes.append(self.cliente)
     	self.cuentasgen.append(self.cuentas)
@@ -77,6 +93,7 @@ class BankOfficer():
     	i=0
     	for z in self.clientes:
     		if z[2]==oldid:
+    			self.clientesolo[i]=self.cliente
     			self.cliente.append(z[5])
     			self.clientes[i]=self.cliente
     			return "Exito"
