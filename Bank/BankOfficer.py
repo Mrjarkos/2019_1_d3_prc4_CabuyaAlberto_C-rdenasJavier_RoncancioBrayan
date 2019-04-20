@@ -9,6 +9,64 @@ from PyQt5.QtGui import *
 import threading
 
 
+class Blockunint(QWidget):
+	"""docstring for Blockunint"""
+	def __init__(self, arg):
+		super(Blockunint, self).__init__(None)
+		loadUi('blockunbloc.ui',self)
+		self.arg = arg
+		self.unblock.clicked.connect(self.unblockacc)
+		self.block.clicked.connect(self.blockacc)
+	def unblockacc(self):
+		idacc=self.id.text()
+		key= self.Contra.text()
+		msg= self.arg.Block_Unblockacc(idacc,key,"Unblock")
+		QMessageBox.warning(self,"Resultado",msg)
+	def blockacc(self):
+		idacc=self.id.text()
+		key= self.Contra.text()
+		msg= self.arg.Block_Unblockacc(idacc,key,"Block")
+		QMessageBox.warning(self,"Resultado",msg)
+class consultas(QWidget):
+	"""docstring for consultas"""
+	def __init__(self, arg,op):
+		super(consultas, self).__init__(None)
+		loadUi('consultas.ui',self)
+		self.arg = arg
+		if op==0:
+			self.consultar.clicked.connect(self.consultar_clicked1)
+		if op== 1:
+			self.consultar.clicked.connect(self.consultar_clicked2)
+	def consultar_clicked1(self):
+		self.listWidget.clear()
+		ident=self.id.text() 
+		objconsult= self.arg.consul_client(ident)
+		length=len(objconsult)
+		if objconsult!= "Cliente no encontrado":
+			for z in range(0,3):
+				self.listWidget.addItem(objconsult[z])
+			self.listWidget.addItem("Cuenas:")
+			for x in range(4,length):
+				#print(x)
+				#print(objconsult[x])
+				strtosend=  "Id: "+str(objconsult[x][1])+" Saldo: "+objconsult[x][2]+" Estado: "+objconsult[x][3]
+				self.listWidget.addItem(strtosend)
+		else:
+			QMessageBox.warning(self,"Resultado",objconsult)
+	
+	def consultar_clicked2(self):
+		self.listWidget.clear()
+		ident=self.id.text() 
+		objconsult= self.arg.consul_account(ident)
+		if objconsult=="Cuenta no existe":
+			QMessageBox.warning(self,"Resultado",objconsult)
+
+		else:
+			objconsult= self.arg.consul_account(ident).copy()	
+			objconsult[1]= str(objconsult[1])
+			objconsult.pop(0)
+			for z in objconsult:
+				self.listWidget.addItem(z)
 class Getaccountdata(QWidget):
 	"""docstring for Getaccountdata"""
 	def __init__(self, arg, tipo):
@@ -50,12 +108,12 @@ class Getaccountdataac(QWidget):
 		self.arg = arg
 		self.Ok.clicked.connect(self.Ok_clicked)
 	def Ok_clicked(self):
-		Name1= self.Name.toPlainText()
-		Lastname= self.Lastname.toPlainText()
-		cc=self.cc.toPlainText()
+		Name1= self.Name.text()
+		Lastname= self.Lastname.text()
+		cc=self.cc.text()
 		contra= self.contrasea.toPlainText()
-		oldid=self.money.toPlainText()
-		contra= self.contrasea.toPlainText()
+		oldid=self.money.text()
+		contra= self.contrasea.text()
 		msg= self.arg.update_client(Name1,Lastname,cc,oldid,contra)
 		#print(self.arg.cuentasgen)
 		QMessageBox.warning(self,"Resultado",msg)
@@ -72,11 +130,11 @@ class Getdataclient(QWidget):
 				self.arg= arg	
 				self.Ok.clicked.connect(self.Ok_clicked)
 			def Ok_clicked(self):
-				Name1= self.Name.toPlainText()
-				Lastname= self.Lastname.toPlainText()
-				cc=self.cc.toPlainText()
-				contra= self.contrasea.toPlainText()
-				initmoney=self.money.toPlainText()
+				Name1= self.Name.text()
+				Lastname= self.Lastname.text()
+				cc=self.cc.text()
+				contra= self.contrasea.text()
+				initmoney=self.money.text()
 				msg= self.arg.create_client(Name1,Lastname,cc,contra,initmoney)
 				QMessageBox.warning(self,"Resultado",msg)
 
@@ -94,6 +152,9 @@ class BankOfficerinterface(QMainWindow):
 		self.Modificardata.clicked.connect(self.Modificardata_clicked)
 		self.deposit.clicked.connect(self.Deposit_clicked)
 		self.withdrawal.clicked.connect(self.Withdrawal_clicked)
+		self.Consulaccount.clicked.connect(self.consulaccount_clicked)
+		self.Consultarclient.clicked.connect(self.Consultarclient_clicked)
+		self.Block_Unblock.clicked.connect(self.Block_Unblock_clicked)
 
 		self.thradq= QThread()
 		self.thradq2= QThread()
@@ -102,6 +163,10 @@ class BankOfficerinterface(QMainWindow):
 		self.thradq5= QThread()
 		self.thradq6= QThread()
 		self.thradq7= QThread()
+		self.thradq8= QThread()
+		self.thradq9= QThread()
+		self.thradq10= QThread()
+
 
 
 	def Mostrarclientes_clicked(self):
@@ -125,7 +190,15 @@ class BankOfficerinterface(QMainWindow):
 	def Withdrawal_clicked(self):
 		self.thradq7.started.connect(self.withdraw_money)
 		self.thradq7.start()
-		
+	def consulaccount_clicked(self):
+		self.thradq8.started.connect(self.consultacc)
+		self.thradq8.start()
+	def Consultarclient_clicked(self):
+		self.thradq9.started.connect(self.consuclient)
+		self.thradq9.start()
+	def Block_Unblock_clicked(self):
+		self.thradq10.started.connect(self.blocunblock)
+		self.thradq10.start()
 
 
 	def mostraracclist(self):
@@ -207,8 +280,27 @@ class BankOfficerinterface(QMainWindow):
 		self.withawint= Getaccountdata(self.bankfunk,2)
 		self.withawint.setWindowTitle("Retirando")
 		self.withawint.label.setText("Inserte id de la cuenta")
+		self.withawint.label_3.setText("Inserte la cantidad de dinero a retirar")
 		self.withawint.show()
 		self.thradq7.quit()
+	def consultacc(self):
+		self.consulacc1= consultas(self.bankfunk,1)
+		self.consulacc1.setWindowTitle("Consultando cuenta")
+		self.consulacc1.label.setText("Inserte id de la cuenta")
+		self.consulacc1.show()
+		self.thradq8.quit()
+	def consuclient(self):
+		self.cosulclienint = consultas(self.bankfunk, 0)
+		self.cosulclienint.setWindowTitle("Consultando cliente")
+		self.cosulclienint.label.setText("Inserte ide del cliente")
+		self.cosulclienint.show()
+		self.thradq9.quit()
+	def blocunblock(self):
+		self.Blockunblock= Blockunint(self.bankfunk)
+		self.Blockunblock.setWindowTitle("Cambiando estado de cuenta")
+		self.Blockunblock.show()
+
+
 
 
 
@@ -263,12 +355,12 @@ class BankOfficer():
     	return "Cliente no encontrado, o clave incorrecta"
     def consul_client(self, id):
     	for z in self.clientes:
-    		if z[2]== id:
+    		if str(z[2])== id:
     			return z
     	return "Cliente no encontrado"
     def consul_account(self, id):
     	for z in self.cuentasgen:
-    		if z[1]==id:
+    		if str(z[1])==id:
     			return z
     	return "Cuenta no existe"
     def create_accoun(self, id, key, initialvalue):
@@ -303,7 +395,7 @@ class BankOfficer():
     def Block_Unblockacc(self,idacc,key,state):
     	cont=0
     	for z in self.cuentasgen:
-    		if z[0]==key and z[1]== idacc:
+    		if z[0]==key and str(z[1])== idacc:
     			self.cuentasgen[cont][3]= state
     			self.update_account(idacc)
     			return "Estado de cuenta cambiado"

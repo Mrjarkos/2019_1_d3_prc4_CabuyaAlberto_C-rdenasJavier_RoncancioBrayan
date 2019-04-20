@@ -26,16 +26,6 @@
     <string>Inserte nombre del cliente</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="Name">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>40</y>
-     <width>351</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_2">
    <property name="geometry">
     <rect>
@@ -47,16 +37,6 @@
    </property>
    <property name="text">
     <string>Inserte apellido</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="Lastname">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>100</y>
-     <width>351</width>
-     <height>31</height>
-    </rect>
    </property>
   </widget>
   <widget class="QLabel" name="label_3">
@@ -72,16 +52,6 @@
     <string>Inserte numero de identificación</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="cc">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>160</y>
-     <width>351</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_4">
    <property name="geometry">
     <rect>
@@ -93,16 +63,6 @@
    </property>
    <property name="text">
     <string>Inserte cantidad de dinero inicial</string>
-   </property>
-  </widget>
-  <widget class="QTextEdit" name="money">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>220</y>
-     <width>351</width>
-     <height>31</height>
-    </rect>
    </property>
   </widget>
   <widget class="QPushButton" name="Ok">
@@ -118,16 +78,6 @@
     <string>ok</string>
    </property>
   </widget>
-  <widget class="QTextEdit" name="contrasea">
-   <property name="geometry">
-    <rect>
-     <x>30</x>
-     <y>280</y>
-     <width>351</width>
-     <height>31</height>
-    </rect>
-   </property>
-  </widget>
   <widget class="QLabel" name="label_5">
    <property name="geometry">
     <rect>
@@ -139,6 +89,56 @@
    </property>
    <property name="text">
     <string>Inserte la contraseña</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Name">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>40</y>
+     <width>351</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Lastname">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>100</y>
+     <width>351</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="cc">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>170</y>
+     <width>351</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="money">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>230</y>
+     <width>351</width>
+     <height>25</height>
+    </rect>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="contrasea">
+   <property name="geometry">
+    <rect>
+     <x>30</x>
+     <y>290</y>
+     <width>351</width>
+     <height>25</height>
+    </rect>
    </property>
   </widget>
  </widget>
