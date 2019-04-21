@@ -1,4 +1,5 @@
 # -*- coding: utf-8 -*-
+# !/usr/bin/python
 import sys
 import os
 from PyQt5.QtWidgets import (QApplication, QDialog, QMainWindow, QFileDialog, QWidget, QMessageBox, QTableWidget, QTableWidgetItem)
@@ -6,8 +7,13 @@ from PyQt5.uic import loadUi
 from PyQt5 import QtCore, QtGui
 from PyQt5.QtCore import *
 from PyQt5.QtGui import *
+##from construct import Struct, Magic, UBInt32, Const, String
 import threading
-import time
+import time, errno
+import ctypes
+#from libc.stdlib cimport malloc, free
+#from posix.mman cimport mmap, PROT_READ, PROT_WRITE, MAP_SHARED
+
 
 
 class Blockunint(QWidget):
@@ -325,12 +331,39 @@ class BankOfficerinterface(QMainWindow):
 
 class BankOfficer():
     def __init__(self):
-    	
+    	self.path= '/tmp/myfifo'
+    	os.unlink(self.path)
+    	os.mkfifo(self.path)
+    	self.bufferSize=1000
     	##self.clientesolo= []
     	self.clientes= []
     	self.accnum=0
     	self.cuentasgen=[]
+    	self.threadd= threading.Thread(target=self.thread_pipe)
+    	self.threadd.start()
+    	#self.threadd.join()
+    	pass
 
+    def thread_pipe(self):
+    	while(1):
+    		fifo=open(self.path, "rb")
+    		#os.ftruncate(self.path,self.bufferSize)
+    		print(fifo)
+    		str1=fifo.read()
+
+    		str2= format(str1)
+    		print(str1)
+    		fifo.close()
+    		fifo= open(self.path,"w")
+    		st1out= "Hola kks"
+    		fifo.write(st1out)
+    		fifo.close()
+
+
+
+    				
+
+    		
     	pass
     def create_client(self,name1,name2,id,contra,initialvalue):
     	

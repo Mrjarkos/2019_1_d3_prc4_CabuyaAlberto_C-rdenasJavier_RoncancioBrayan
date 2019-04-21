@@ -2,7 +2,7 @@
 #define CLIENT_H
 #include "account.h"
 #define pipename "/tmp/myfifo"
-#define msjzise 100
+#define msjzise 1000
 class Client
 {
 public:
