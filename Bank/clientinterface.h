@@ -7,11 +7,13 @@
 #include <QStringList>
 #include <QString>
 #include <QtWidgets/QWidget>
+#include <QtWidgets/QTabWidget>
 #include <QSharedPointer>
 #include <QHash>
 #include <QtWidgets/QDialog>
 #include<QtDebug>
 #include "client.h"
+#include "menuconsultas.h"
 namespace Ui {
 class ClientInterface;
 }

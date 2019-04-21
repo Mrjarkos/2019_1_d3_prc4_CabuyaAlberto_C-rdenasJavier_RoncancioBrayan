@@ -19,6 +19,7 @@ SOURCES += \
     account.cpp \
     client.cpp \
     clientinterface.cpp \
+    menuconsultas.cpp
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
@@ -27,9 +28,11 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 FORMS += \
      clientinterface.ui \
+    menuconsultas.ui
 
 HEADERS += \
     account.h \
     client.h \
     clientinterface.h \
+    menuconsultas.h
 

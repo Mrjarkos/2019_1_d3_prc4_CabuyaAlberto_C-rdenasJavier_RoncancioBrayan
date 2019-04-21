@@ -2,7 +2,18 @@
 #include <QDebug>
 Client::Client(char* cc,char* contra )
 {
-  fd= open(pipename, O_WRONLY);
+   Cc= cc;
+   Contra= contra;
+   for (int i=0;i<msjzise;i++) {
+       msg[i]='0';
+
+     }
+  }
+
+void Client::verifyClient(){
+
+
+ fd= open(pipename, O_WRONLY);
   if (fd<0){
       close(fd);
       strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
@@ -10,17 +21,16 @@ Client::Client(char* cc,char* contra )
   else{
 
       string send[2];
-      send[0]=cc;
-      send[1]=contra;
-      string datout= ";"+send[0]+";"+send[1]+";";
-     // char* rec[2];
-      write(fd,&datout,sizeof(datout));
-      sleep(1);
-     //qDebug()<<"cc:"<<send[0]<<"cont:"<<send[1];
+      send[0]=Cc;
+      send[1]=Contra;
 
-      //read(fd, rec,msjzise);
-      //printf("%s", rec[0]);
-     //qDebug()<<"cc:"<<rec[0]<<"cont:"<<rec[1];
+      string datout= ";"+send[0]+";"+send[1]+";";
+
+      printf("string: %s string2 %s", send[0].c_str(),send[1].c_str() );
+      write(fd,&datout,sizeof(datout));
+
+      sleep(1);
+
       close(fd);
       fd= open(pipename, O_RDONLY);
       if (fd<0){
@@ -28,11 +38,79 @@ Client::Client(char* cc,char* contra )
            strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
         }
       else{
-          void* resul;
+          void* resul=new char[msjzise];
           read(fd,resul, msjzise);
-          qDebug()<<"cc:"<<resul;
+          qDebug()<<"cc:"<<(char *)resul;
           printf("%s", (char *)resul);
+          strcpy(msg,(char* )resul);
         }
 
   }
+
+}
+void Client::consulclient(int op){
+  fd= open(pipenamedata, O_WRONLY);
+   if (fd<0){
+       close(fd);
+       strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
+     }
+   else{
+         string datout;
+       switch (op) {
+         case 1:{
+           string send[2];
+           send[0]=std::to_string(op);
+           send[1]=Cc;
+
+           datout= ";"+send[0]+";"+send[1]+";";
+            write(fd,&datout,sizeof(datout));
+           //printf("string: %s string2 %s", send[0].c_str(),send[1].c_str() );
+          }break ;
+          case 2:{
+            string send[3];
+            send[0]=std::to_string(op);
+            send[1]=idaccount;
+            send[2]= moneyammount;
+
+            datout= ";"+send[0]+";"+send[1]+";"+send[2]+";";
+             // qDebug()<<"Sending"<<datout.c_str();
+            //printf("string: %s string2 %s", send[0].c_str(),send[1].c_str() );
+              write(fd,&datout,sizeof(datout));
+           }
+           break;
+         case 3:{
+             string send[4];
+             send[0]=std::to_string(op);
+             send[1]=idaccount;
+             send[2]= moneyammount;
+             send[3]= Contra;
+             datout= ";"+send[0]+";"+send[1]+";"+send[2]+";"+send[3]+";";
+               qDebug()<<"Sending"<<datout.c_str();
+             //printf("string: %s string2 %s", send[0].c_str(),send[1].c_str() );
+               write(fd,&datout,sizeof(datout));
+
+           }
+         }
+
+
+
+       sleep(1);
+
+       close(fd);
+       fd= open(pipenamedata, O_RDONLY);
+       if (fd<0){
+           close(fd);
+            strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
+         }
+       else{
+           void* resul=new char[msjzise];
+           read(fd,resul, msjzise);
+           qDebug()<<"cc:"<<(char *)resul;
+           printf("%s", (char *)resul);
+           strcpy(msg,(char* )resul);
+           close(fd);
+         }
+
+   }
+
 }

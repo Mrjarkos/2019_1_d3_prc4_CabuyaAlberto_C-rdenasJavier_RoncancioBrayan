@@ -332,35 +332,93 @@ class BankOfficerinterface(QMainWindow):
 class BankOfficer():
     def __init__(self):
     	self.path= '/tmp/myfifo'
-    	os.unlink(self.path)
-    	os.mkfifo(self.path)
-    	self.bufferSize=100
+    	self.pathdatapipe= '/tmp/myfifo2'
+    	try:
+    		os.unlink(self.path)
+    		os.mkfifo(self.path)  		
+
+    		pass
+    	except:
+    		os.mkfifo(self.path)
+    	try:
+    		os.unlink(self.pathdatapipe)
+    		os.mkfifo(self.pathdatapipe)  
+    	except:
+    		os.mkfifo(self.pathdatapipe)
+
+    	
+    	
+    	self.bufferSize=1000
     	##self.clientesolo= []
     	self.clientes= []
     	self.accnum=0
     	self.cuentasgen=[]
     	self.threadd= threading.Thread(target=self.thread_pipe)
+    	self.threaddata= threading.Thread(target= self.Thread_datapipe)
     	self.threadd.start()
+    	self.threaddata.start()
     	#self.threadd.join()
     	pass
+    def Thread_datapipe(self):
+    	while(1):
+    		fifo=open(self.pathdatapipe,"rb")
+    		str1=fifo.readline()
+    		str2= str(str1)
+    		newstr= "".join(str2)
+    		newstr2= newstr.split(';')
+    		#print(type(str2))
+    		print(newstr2)
+    		#print(newstr2[1]+";"+newstr2[2])
+    		fifo.close()
+    		if newstr2[1]=="1":
+    			dataout = self.consult_client_accounts(newstr2[2])
+    		if newstr2[1]=="2":
+    			#print(newstr2[3])
+    			dataout= self.Deposit(newstr2[2],newstr2[3])
+    		if newstr2[1]=="3":
+    			dataout= self.withdrawal(newstr2[2],newstr2[3],newstr2[4])
+
+
+    		fifo= open(self.pathdatapipe,"w")
+    		st1out= dataout
+    		fifo.write(st1out)
+    		fifo.close()
+
+
+
 
     def thread_pipe(self):
+    	self.create_client("Juan","Perez","100","er","1000")
+    	self.create_client("Andrés","Lopez","200","er","2000")
+    	self.create_accoun("100","er", "5000")
+    	self.create_accoun("100","er", "10000")
+    	cuentas=self.consult_client_accounts("100")
+    	#print(cuentas)
+
     	while(1):
     		fifo=open(self.path, "rb")
     		#os.ftruncate(self.path,self.bufferSize)
-    		print(fifo)
+    		#print(fifo)
     		str1=fifo.readline()
+    		#print(type(str1))
+    		#print(str1)
     		cont=0
     		str2= str(str1)
     		newstr= "".join(str2)
     		newstr2= newstr.split(';')
-    		print(type(str2))
-    		print(newstr2)
-    		
-
+    		#print(type(str2))
+    		#print(newstr2[1]+";"+newstr2[2])
     		fifo.close()
+    		entro=0
+    		for z in self.clientes:
+    			if z[2]==newstr2[1] and z[3]== newstr2[2]:
+    				msgg="Hola "+z[0]+ " "+z[1]
+    				entro=1
+    		if entro==0:
+    			msgg= "Error al inicar sesion"
+    			pass    		
     		fifo= open(self.path,"w")
-    		st1out= "Hola kks"
+    		st1out= msgg
     		fifo.write(st1out)
     		fifo.close()
 
@@ -411,6 +469,16 @@ class BankOfficer():
     		if str(z[2])== id:
     			return z
     	return "Cliente no encontrado"
+    def consult_client_accounts(self, id):
+    	for z in self.clientes:
+    		if str(z[2])== id:
+    			leng= len(z)
+    			datout= ";"
+    			for x in range(4,leng ):
+    				#print(z)
+    				datout= datout+str(z[x][1])+";"+z[x][2]+";"
+    			return datout	
+
     def consul_account(self, id):
     	for z in self.cuentasgen:
     		if str(z[1])==id:
@@ -427,12 +495,12 @@ class BankOfficer():
     			pass
     	return "Cliente no encontrado, no se pudo crear la cuenta"
     def update_account(self, id):
+    	updatedaccount="0"
     	for accounn in self.cuentasgen:
     		if accounn[1]==id:
     			updatedaccount=accounn
-    	cont=0
-    	for z in self.clientes:
-    		cont+=1
+    	cont=len(self.clientes)
+    	
     	for x in range(0,cont):
     		i= 0
 
@@ -487,7 +555,7 @@ class BankOfficer():
     			else:
     				ammount2=int(self.cuentasgen[cont][2])-int(ammount)
     				self.cuentasgen[cont][2]= str(ammount2)
-    				self.update_account(idacc)
+    				self.update_account(z[1])
     				return "Retiro realizado"
     		cont+=1
     	return "Error al realizar el retiro"
