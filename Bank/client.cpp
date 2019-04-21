@@ -12,7 +12,7 @@ Client::Client(char* cc,char* contra )
       string send[2];
       send[0]=cc;
       send[1]=contra;
-      string datout= send[0]+";"+send[1];
+      string datout= ";"+send[0]+";"+send[1]+";";
      // char* rec[2];
       write(fd,&datout,sizeof(datout));
       sleep(1);

@@ -334,7 +334,7 @@ class BankOfficer():
     	self.path= '/tmp/myfifo'
     	os.unlink(self.path)
     	os.mkfifo(self.path)
-    	self.bufferSize=1000
+    	self.bufferSize=100
     	##self.clientesolo= []
     	self.clientes= []
     	self.accnum=0
@@ -349,10 +349,15 @@ class BankOfficer():
     		fifo=open(self.path, "rb")
     		#os.ftruncate(self.path,self.bufferSize)
     		print(fifo)
-    		str1=fifo.read()
+    		str1=fifo.readline()
+    		cont=0
+    		str2= str(str1)
+    		newstr= "".join(str2)
+    		newstr2= newstr.split(';')
+    		print(type(str2))
+    		print(newstr2)
+    		
 
-    		str2= format(str1)
-    		print(str1)
     		fifo.close()
     		fifo= open(self.path,"w")
     		st1out= "Hola kks"
