@@ -32,7 +32,7 @@ void ClientInterface::on_pushButton_clicked()
       }
     else {
         QMessageBox::information(this,tr("Info"),tr(cliente->msg));
-        if(cliente->msg !="Error al inicar sesion"){
+        if(cliente->confirm !=1){
           menuconsultas* menu = new menuconsultas();
           menu->clienteobj= cliente;
           menu->changetextlb1(cliente->msg);
