@@ -53,13 +53,13 @@ void menuconsultas::on_pushButton_3_clicked()
    string idaccount1= text.toStdString();
    strcpy(idacctmp,idaccount1.c_str());
    clienteobj->idaccount=idacctmp;
-   qDebug()<<"id"<<clienteobj->idaccount;
+   //qDebug()<<"id"<<clienteobj->idaccount;
    char * moneytmp= new char[20];
    QString text2= ui->lineEdit_4->text();
   string ammount= text2.toStdString();
   strcpy(moneytmp,ammount.c_str());
   clienteobj->moneyammount= moneytmp;
-   qDebug()<<"id"<<clienteobj->idaccount;
+   //qDebug()<<"id"<<clienteobj->idaccount;
   clienteobj->consulclient(3);
   QMessageBox::information(this,tr("Info"),tr(clienteobj->msg));
 }

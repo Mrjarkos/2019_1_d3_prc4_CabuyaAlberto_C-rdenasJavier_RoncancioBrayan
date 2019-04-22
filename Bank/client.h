@@ -14,6 +14,7 @@ public:
    char* Contra;
    char * idaccount;
    char* moneyammount;
+   int confirm=0;
     char msg[msjzise];
     int fd;
 };

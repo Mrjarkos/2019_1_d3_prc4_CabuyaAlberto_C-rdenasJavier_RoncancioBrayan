@@ -40,9 +40,16 @@ void Client::verifyClient(){
       else{
           void* resul=new char[msjzise];
           read(fd,resul, msjzise);
-          qDebug()<<"cc:"<<(char *)resul;
+          //qDebug()<<"cc:"<<(char *)resul;
+
           printf("%s", (char *)resul);
           strcpy(msg,(char* )resul);
+          string msg2= msg;
+          if(msg2=="Error al inicar sesion"){
+              confirm=1;
+            }
+          //qDebug()<<"cc:"<<(char *)resul;
+          close(fd);
         }
 
   }
@@ -65,17 +72,25 @@ void Client::consulclient(int op){
            datout= ";"+send[0]+";"+send[1]+";";
             write(fd,&datout,sizeof(datout));
            //printf("string: %s string2 %s", send[0].c_str(),send[1].c_str() );
+
+            sleep(1);
+
+            close(fd);
           }break ;
           case 2:{
-            string send[3];
+            string send[4];
             send[0]=std::to_string(op);
             send[1]=idaccount;
             send[2]= moneyammount;
-
-            datout= ";"+send[0]+";"+send[1]+";"+send[2]+";";
-             // qDebug()<<"Sending"<<datout.c_str();
+            send[3]= Contra;
+            datout= ";"+send[0]+";"+send[1]+";"+send[2]+";"+send[3]+";";
+            // qDebug()<<"Sending"<<datout.c_str();
             //printf("string: %s string2 %s", send[0].c_str(),send[1].c_str() );
               write(fd,&datout,sizeof(datout));
+
+              sleep(1);
+
+              close(fd);
            }
            break;
          case 3:{
@@ -85,18 +100,19 @@ void Client::consulclient(int op){
              send[2]= moneyammount;
              send[3]= Contra;
              datout= ";"+send[0]+";"+send[1]+";"+send[2]+";"+send[3]+";";
-               qDebug()<<"Sending"<<datout.c_str();
+               //qDebug()<<"Sending"<<datout.c_str();
              //printf("string: %s string2 %s", send[0].c_str(),send[1].c_str() );
                write(fd,&datout,sizeof(datout));
+
+               sleep(1);
+
+               close(fd);
 
            }
          }
 
 
 
-       sleep(1);
-
-       close(fd);
        fd= open(pipenamedata, O_RDONLY);
        if (fd<0){
            close(fd);
@@ -105,7 +121,7 @@ void Client::consulclient(int op){
        else{
            void* resul=new char[msjzise];
            read(fd,resul, msjzise);
-           qDebug()<<"cc:"<<(char *)resul;
+           //qDebug()<<"cc:"<<(char *)resul;
            printf("%s", (char *)resul);
            strcpy(msg,(char* )resul);
            close(fd);
