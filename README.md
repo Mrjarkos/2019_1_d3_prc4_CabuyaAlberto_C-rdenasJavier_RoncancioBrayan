@@ -12,5 +12,6 @@ En la actualidad, los codigos de programación cuentan con interfaces gráficas 
 * Comunicar dos tipos de lenguajes diferenetes por medio de la implementación de tuberias
 # Planteamiento del problema
 Se requiere diseñar un sistema que maneje todos los procesos que se pueden llevar en un banco, es decir; transacciones, habilitar o deshabilitar cuentas, crear o borrar cuentas, crear usuarios. Para ello se debe emplear una interfaz gráfica que facilite la manipulación del sistema que llevara a cabo dicha labor; se necesita emplear dos lenguajes de programación c++ y Phyton. Los dos lenguajes deben interactuar entre sí, el transporte de información sera llevada a cabo por medio de hilos y se deben atender los problemas que se puedan presentar al ingrsar datos o valores numericos; es decir, en la elaboración de cuentas y en las transacciones.
+# Desarrollo
+En primera instancia, para resolver la situación problema se acudio al programa base; es decir, al programa que nos simulaba el banco, el main de dicho programa se puede apreciar a continuación:
 
-Realizar la implementación del banco del laboratorio 1, agregando interfaces gráficas de Qt
