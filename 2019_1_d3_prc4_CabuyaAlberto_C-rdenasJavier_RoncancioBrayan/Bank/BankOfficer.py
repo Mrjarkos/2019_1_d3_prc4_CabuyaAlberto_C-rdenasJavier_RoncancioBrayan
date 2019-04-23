@@ -118,7 +118,8 @@ class Getaccountdataac(QWidget):
 		Name1= self.Name.text()
 		Lastname= self.Lastname.text()
 		cc=self.cc.text()
-		contra= self.contrasea.text()
+		contra= self.contrasea.t
+		ext()
 		oldid=self.money.text()
 		contra= self.contrasea.text()
 		msg= self.arg.update_client(Name1,Lastname,cc,oldid,contra)
@@ -429,7 +430,10 @@ class BankOfficer():
     		
     	pass
     def create_client(self,name1,name2,id,contra,initialvalue):
-    	
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
     	for z in self.clientes:
     		if z[2]== id:
     			return "Cliente ya existe"	
@@ -485,6 +489,10 @@ class BankOfficer():
     			return z
     	return "Cuenta no existe"
     def create_accoun(self, id, key, initialvalue):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
     	for z in self.clientes:
     		if z[2]== id and z[3]== key:
     			newaccount= [key,self.accnum,initialvalue,"Unblock"]
@@ -495,6 +503,10 @@ class BankOfficer():
     			pass
     	return "Cliente no encontrado, no se pudo crear la cuenta"
     def update_account(self, id):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
     	updatedaccount="0"
     	for accounn in self.cuentasgen:
     		if accounn[1]==id:
@@ -527,6 +539,10 @@ class BankOfficer():
 
     	return "Cuenta no encontrada, o clave incorrecta"
     def Deposit(self, idacc,ammount):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
     	cont=0
     	for z in self.cuentasgen:
     		##print(z[1])
@@ -545,6 +561,10 @@ class BankOfficer():
 
     	return "Error al realizar el deposito cuenta inexistente"
     def withdrawal(self, idacc, ammount, key):
+    	try:
+    		int(ammount)
+    	except:
+    		return "Valor a insertar no valido"
     	cont=0
     	for z in self.cuentasgen:
     		if z[0]==key and str(z[1])==idacc:
@@ -560,6 +580,10 @@ class BankOfficer():
     		cont+=1
     	return "Error al realizar el retiro"
     def transfer_money(self, idacc1, key, idacc2, ammount):
+    	try:
+    		int(ammount)
+    	except:
+    		return "Valor a insertar no valido"
     	k=self.withdrawal(idacc1,ammount, key)
     	if k== "Retiro realizado":
     		res=self.Deposit(idacc2,ammount)
