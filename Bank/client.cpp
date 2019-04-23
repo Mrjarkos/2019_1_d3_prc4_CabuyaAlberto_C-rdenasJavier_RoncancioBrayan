@@ -16,7 +16,7 @@ void Client::verifyClient(){
  fd= open(pipename, O_WRONLY);
   if (fd<0){
       close(fd);
-      strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
+      strcpy(msg,"No se pudo abrir la comunicación, intente de nuevo");
     }
   else{
 
@@ -35,7 +35,7 @@ void Client::verifyClient(){
       fd= open(pipename, O_RDONLY);
       if (fd<0){
           close(fd);
-           strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
+           strcpy(msg,"No se pudo abrir la comunicación, intente de nuevo");
         }
       else{
           void* resul=new char[msjzise];
@@ -59,7 +59,7 @@ void Client::consulclient(int op){
   fd= open(pipenamedata, O_WRONLY);
    if (fd<0){
        close(fd);
-       strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
+       strcpy(msg,"No se pudo abrir la comunicación, intente de nuevo");
      }
    else{
          string datout;
@@ -116,7 +116,7 @@ void Client::consulclient(int op){
        fd= open(pipenamedata, O_RDONLY);
        if (fd<0){
            close(fd);
-            strcpy(msg,"No se pudo abrir el pipe, intente de nuevo");
+            strcpy(msg,"No se pudo abrir la comunicación, intente de nuevo");
          }
        else{
            void* resul=new char[msjzise];

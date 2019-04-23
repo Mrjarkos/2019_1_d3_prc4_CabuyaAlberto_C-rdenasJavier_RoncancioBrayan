@@ -1,4 +1,3 @@
-# -*- coding: utf-8 -*-
 # !/usr/bin/python
 import sys
 import os
@@ -52,7 +51,7 @@ class consultas(QWidget):
 		if objconsult!= "Cliente no encontrado":
 			for z in range(0,3):
 				self.listWidget.addItem(objconsult[z])
-			self.listWidget.addItem("Cuenas:")
+			self.listWidget.addItem("Cuentas:")
 			for x in range(4,length):
 				#print(x)
 				#print(objconsult[x])
@@ -118,7 +117,8 @@ class Getaccountdataac(QWidget):
 		Name1= self.Name.text()
 		Lastname= self.Lastname.text()
 		cc=self.cc.text()
-		contra= self.contrasea.toPlainText()
+		contra= self.contrasea.t
+		ext()
 		oldid=self.money.text()
 		contra= self.contrasea.text()
 		msg= self.arg.update_client(Name1,Lastname,cc,oldid,contra)
@@ -144,7 +144,7 @@ class Mostrarlist(QMainWindow):
 			item= self.argv.clientes[x].copy()
 					##item[2]= str(item[2])
 					#item[3]= str(item[3])
-			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
+			str1= "Cliente: "+" Nombre: "+item[0]+" Apellido: "+item[1]+" CC: "+item[2]
 			self.listWidget.addItem(str1)
 					##time.sleep(2)
 	def mostrar_acc(self):
@@ -155,19 +155,19 @@ class Mostrarlist(QMainWindow):
 			cont+=1
 		for x in range(0,cont):
 			item= self.argv.clientes[x].copy()
-			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
+			str1= "Cliente: "+" Nombre: "+item[0]+" Apellido: "+item[1]+" CC: "+item[2]
 			cont2=0
-			for z in self.argv.clientes[x]:
-				cont2+=1
-			cont2=cont2-4
-			for y in range(0,cont2):				
-				item2= self.argv.cuentasgen[y+cont3].copy()
+			#for z in self.argv.clientes[x]:
+			#	cont2+=1
+			cont2=len(self.argv.clientes[x])
+			for y in range(4,cont2):				
+				item2= self.argv.clientes[x][y].copy()
 				#item[2]= str(item[2])
 				#item[3]= str(item[3])
 				
 				item2[1]=str(item2[1])
 				#item2[2]=str(item2[2])
-				str2= " id: "+item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]
+				str2= " Id: "+item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]+ "\n"
 				
 				item3= [str1, str2]
 				str3= ' cuenta: '.join(item3)
@@ -291,7 +291,7 @@ class BankOfficerinterface(QMainWindow):
 	def depositmoney(self):
 		self.Depositt= Getaccountdata(self.bankfunk,1)
 		self.Depositt.setWindowTitle("Depositando")
-		self.Depositt.label.setText("Inserte id de la cuenta")
+		self.Depositt.label.setText("Inserte Id de la cuenta")
 		self.Depositt.label_2.setText(" ")
 		self.Depositt.contrasea.setReadOnly(True)
 		self.Depositt.show()
@@ -299,20 +299,20 @@ class BankOfficerinterface(QMainWindow):
 	def withdraw_money(self):
 		self.withawint= Getaccountdata(self.bankfunk,2)
 		self.withawint.setWindowTitle("Retirando")
-		self.withawint.label.setText("Inserte id de la cuenta")
+		self.withawint.label.setText("Inserte Id de la cuenta")
 		self.withawint.label_3.setText("Inserte la cantidad de dinero a retirar")
 		self.withawint.show()
 		self.thradq7.quit()
 	def consultacc(self):
 		self.consulacc1= consultas(self.bankfunk,1)
 		self.consulacc1.setWindowTitle("Consultando cuenta")
-		self.consulacc1.label.setText("Inserte id de la cuenta")
+		self.consulacc1.label.setText("Inserte Id de la cuenta")
 		self.consulacc1.show()
 		self.thradq8.quit()
 	def consuclient(self):
 		self.cosulclienint = consultas(self.bankfunk, 0)
 		self.cosulclienint.setWindowTitle("Consultando cliente")
-		self.cosulclienint.label.setText("Inserte ide del cliente")
+		self.cosulclienint.label.setText("Inserte ID del cliente")
 		self.cosulclienint.show()
 		self.thradq9.quit()
 	def blocunblock(self):
@@ -367,7 +367,7 @@ class BankOfficer():
     		newstr= "".join(str2)
     		newstr2= newstr.split(';')
     		#print(type(str2))
-    		#print(newstr2)
+    		##print(newstr2)
     		#print(newstr2[1]+";"+newstr2[2])
     		fifo.close()
     		if newstr2[1]=="1":
@@ -429,7 +429,10 @@ class BankOfficer():
     		
     	pass
     def create_client(self,name1,name2,id,contra,initialvalue):
-    	
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
     	for z in self.clientes:
     		if z[2]== id:
     			return "Cliente ya existe"	
@@ -473,10 +476,10 @@ class BankOfficer():
     	for z in self.clientes:
     		if str(z[2])== id:
     			leng= len(z)
-    			datout= "Cuentas: "
+    			datout= "Cuentas:\n"
     			for x in range(4,leng ):
     				#print(z)
-    				datout= datout+"id: "+str(z[x][1])+"Saldo"+z[x][2]+";"
+    				datout= datout+" id: "+str(z[x][1])+" Saldo: "+z[x][2]+"\n"
     			return datout	
 
     def consul_account(self, id):
@@ -485,6 +488,10 @@ class BankOfficer():
     			return z
     	return "Cuenta no existe"
     def create_accoun(self, id, key, initialvalue):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
     	for z in self.clientes:
     		if z[2]== id and z[3]== key:
     			newaccount= [key,self.accnum,initialvalue,"Unblock"]
@@ -495,6 +502,10 @@ class BankOfficer():
     			pass
     	return "Cliente no encontrado, no se pudo crear la cuenta"
     def update_account(self, id):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
     	updatedaccount="0"
     	for accounn in self.cuentasgen:
     		if accounn[1]==id:
@@ -527,6 +538,10 @@ class BankOfficer():
 
     	return "Cuenta no encontrada, o clave incorrecta"
     def Deposit(self, idacc,ammount):
+    	try:
+    		int(ammount)
+    	except:
+    		return "Valor a insertar no valido"
     	cont=0
     	for z in self.cuentasgen:
     		##print(z[1])
@@ -545,6 +560,10 @@ class BankOfficer():
 
     	return "Error al realizar el deposito cuenta inexistente"
     def withdrawal(self, idacc, ammount, key):
+    	try:
+    		int(ammount)
+    	except:
+    		return "Valor a insertar no valido"
     	cont=0
     	for z in self.cuentasgen:
     		if z[0]==key and str(z[1])==idacc:
@@ -560,6 +579,10 @@ class BankOfficer():
     		cont+=1
     	return "Error al realizar el retiro"
     def transfer_money(self, idacc1, key, idacc2, ammount):
+    	try:
+    		int(ammount)
+    	except:
+    		return "Valor a insertar no valido"
     	k=self.withdrawal(idacc1,ammount, key)
     	if k== "Retiro realizado":
     		res=self.Deposit(idacc2,ammount)

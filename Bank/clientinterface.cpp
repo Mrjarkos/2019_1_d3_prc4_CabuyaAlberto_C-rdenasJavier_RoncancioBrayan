@@ -16,11 +16,11 @@ ClientInterface::~ClientInterface()
 void ClientInterface::on_pushButton_clicked()
 {
     char* cc= new char[100];
-    QString str= ui->textEdit->toPlainText();
+    QString str= ui->Cedula->text();
     string kks= str.toStdString();
     strcpy(cc,kks.c_str());
     char* contra= new char[100];
-    QString str2= ui->textEdit_2->toPlainText();
+    QString str2= ui->Contrasena->text();
     kks= str2.toStdString();
     strcpy(contra,kks.c_str());
     //qDebug()<<"kks";

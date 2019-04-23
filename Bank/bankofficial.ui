@@ -6,33 +6,79 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>433</width>
-    <height>327</height>
+    <width>447</width>
+    <height>365</height>
    </rect>
   </property>
+  <property name="minimumSize">
+   <size>
+    <width>447</width>
+    <height>365</height>
+   </size>
+  </property>
+  <property name="maximumSize">
+   <size>
+    <width>447</width>
+    <height>365</height>
+   </size>
+  </property>
   <property name="windowTitle">
-   <string>BankOfficial</string>
+   <string>Funcionario</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../../../Descargas/45587814-monedas-moneda-icono-de-moneda-vector-de-imagen-también-se-puede-utilizar-para-la-venta-el-viernes-neg.jpg</normaloff>../../../../../Descargas/45587814-monedas-moneda-icono-de-moneda-vector-de-imagen-también-se-puede-utilizar-para-la-venta-el-viernes-neg.jpg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background-color: black;
+color: #fff;
+}
+
+QLineEdit{
+background-color: #fff ;
+border: 0;
+color: #111;
+font-size: 14px;
+height: 30px;
+}
+
+QLabel{
+color: #fff;
+}
+
+QPushButton{
+background-color: #555;
+color: #fff;
+font-size: 14px;
+border: 1;
+}</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="label">
     <property name="geometry">
      <rect>
-      <x>20</x>
-      <y>20</y>
-      <width>341</width>
-      <height>17</height>
+      <x>170</x>
+      <y>0</y>
+      <width>111</width>
+      <height>20</height>
      </rect>
     </property>
+    <property name="font">
+     <font>
+      <pointsize>14</pointsize>
+     </font>
+    </property>
     <property name="text">
-     <string>Bienvenido al banco seleccione una opción</string>
+     <string>Bienvenido</string>
     </property>
    </widget>
    <widget class="QPushButton" name="Mostrarcuentas">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>60</y>
-      <width>141</width>
+      <x>20</x>
+      <y>210</y>
+      <width>221</width>
       <height>25</height>
      </rect>
     </property>
@@ -43,9 +89,9 @@
    <widget class="QPushButton" name="Mostrarclientes">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>100</y>
-      <width>141</width>
+      <x>20</x>
+      <y>180</y>
+      <width>221</width>
       <height>25</height>
      </rect>
     </property>
@@ -56,8 +102,8 @@
    <widget class="QPushButton" name="Modificardata">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>140</y>
+      <x>20</x>
+      <y>240</y>
       <width>221</width>
       <height>25</height>
      </rect>
@@ -69,9 +115,9 @@
    <widget class="QPushButton" name="Crearcliente">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>180</y>
-      <width>121</width>
+      <x>20</x>
+      <y>60</y>
+      <width>221</width>
       <height>25</height>
      </rect>
     </property>
@@ -82,9 +128,9 @@
    <widget class="QPushButton" name="Crearcuenta">
     <property name="geometry">
      <rect>
-      <x>10</x>
-      <y>220</y>
-      <width>121</width>
+      <x>20</x>
+      <y>90</y>
+      <width>221</width>
       <height>25</height>
      </rect>
     </property>
@@ -95,9 +141,9 @@
    <widget class="QPushButton" name="deposit">
     <property name="geometry">
      <rect>
-      <x>300</x>
-      <y>60</y>
-      <width>121</width>
+      <x>270</x>
+      <y>180</y>
+      <width>131</width>
       <height>25</height>
      </rect>
     </property>
@@ -108,9 +154,9 @@
    <widget class="QPushButton" name="withdrawal">
     <property name="geometry">
      <rect>
-      <x>310</x>
-      <y>100</y>
-      <width>111</width>
+      <x>270</x>
+      <y>150</y>
+      <width>131</width>
       <height>25</height>
      </rect>
     </property>
@@ -121,22 +167,22 @@
    <widget class="QPushButton" name="Block_Unblock">
     <property name="geometry">
      <rect>
-      <x>200</x>
-      <y>220</y>
+      <x>20</x>
+      <y>270</y>
       <width>221</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
-     <string>Bloquear o desbloquear cuenta</string>
+     <string>Cambiar estado de cuenta</string>
     </property>
    </widget>
    <widget class="QPushButton" name="Consulaccount">
     <property name="geometry">
      <rect>
-      <x>290</x>
-      <y>140</y>
-      <width>131</width>
+      <x>20</x>
+      <y>150</y>
+      <width>221</width>
       <height>25</height>
      </rect>
     </property>
@@ -147,14 +193,27 @@
    <widget class="QPushButton" name="Consultarclient">
     <property name="geometry">
      <rect>
-      <x>288</x>
-      <y>180</y>
-      <width>131</width>
+      <x>20</x>
+      <y>120</y>
+      <width>221</width>
       <height>25</height>
      </rect>
     </property>
     <property name="text">
      <string>Consultar cliente</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>20</x>
+      <y>30</y>
+      <width>281</width>
+      <height>17</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Seleccione la opcion que desea ejecutar:</string>
     </property>
    </widget>
   </widget>
@@ -172,7 +231,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>433</width>
+     <width>447</width>
      <height>22</height>
     </rect>
    </property>

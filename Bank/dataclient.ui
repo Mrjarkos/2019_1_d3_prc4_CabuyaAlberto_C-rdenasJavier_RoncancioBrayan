@@ -11,7 +11,36 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>Form</string>
+   <string>Editar Cliente</string>
+  </property>
+  <property name="windowIcon">
+   <iconset>
+    <normaloff>../../../../../Descargas/45587814-monedas-moneda-icono-de-moneda-vector-de-imagen-también-se-puede-utilizar-para-la-venta-el-viernes-neg.jpg</normaloff>../../../../../Descargas/45587814-monedas-moneda-icono-de-moneda-vector-de-imagen-también-se-puede-utilizar-para-la-venta-el-viernes-neg.jpg</iconset>
+  </property>
+  <property name="styleSheet">
+   <string notr="true">QWidget{
+background-color: black;
+color: #fff;
+}
+
+QLineEdit{
+background-color: #fff ;
+border: 0;
+color: #111;
+font-size: 14px;
+height: 30px;
+}
+
+QLabel{
+color: #fff;
+}
+
+QPushButton{
+background-color: #555;
+color: #fff;
+font-size: 14px;
+border: 1;
+}</string>
   </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
@@ -74,8 +103,11 @@
      <height>25</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true"/>
+   </property>
    <property name="text">
-    <string>ok</string>
+    <string>Aceptar</string>
    </property>
   </widget>
   <widget class="QLabel" name="label_5">
