@@ -124,9 +124,220 @@ private:
 #endif  //CLIENTINTERFACE_H
 ```
 
-### Programa Interfaz Oficinista Phyton - Servidor
+### Programa Interfaz Oficinista Phyton
 
+
+
+### Servidor (Phyton)
+
+El servidor del banco se encarga de atender las operaciones requeridas por las otras dos interfaces. El servidor cuenta con la clase `BankOfficer`, el programa no es estrictamente orientado a objetos, debido a que para los clientes y para las cuentas se implementaron `listas` en vez de clases, a continuación se muestra una porción de código que crea un cliente, en él se ilustra mejor el tratamiento dado a las cuentas y a los clientes. El servidor como tal no tiene implementado ninguna interfaz gráfica, ya que no es necesario. Este recibe una cadena de caracteres mediante pipes con nombre y atenderá de acuerdo al primer caracter leido.
+
+* `Client`:
+
+Los clientes tienen una estructura similar a la clase `Client.cpp` implementada en el programa de interfaz gráfica del cliente (nombre, apellido, id, cuentas, etc), sin embargo divergen en la interpretación, mientras que en C++ era una clase, en este programa se trataron los clientes como listas, los cuales permitieron una mayor versatilidad en la gestión de estos, sin embargo se pierde el concepto, la estructuración y las ventajas que ofrece programar programación orientada a objetos.
+
+``` phyton
+    def create_client(self,name1,name2,id,contra,initialvalue):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
+    	for z in self.clientes:
+    		if z[2]== id:
+    			return "Cliente ya existe"	
+    	self.cliente= [name1,name2,id,contra] 
+## Se hace este debido a que si no hay cuentas no se entra al ciclo for in
+    	self.cuentas= [contra,self.accnum, initialvalue,"Unblock"]
+    	self.accnum+=1
+    	##self.clientesolo.append(self.cliente)
+    	self.cliente.append(self.cuentas)
+    	self.clientes.append(self.cliente)
+    	self.cuentasgen.append(self.cuentas)
+    	return "Cliente creado"
+```
+
+* `Cuentas`:
+
+Las cuentas recibieron un tratamiento similar a los clientes (se trataron como listas) pero anidados a estos, es decir que una cuenta no puede existir mientras no exista un cliente, esto se puede evidenciar en las excepciones implementadas en el siguiente código:
+
+``` phyton
+  def create_accoun(self, id, key, initialvalue):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
+    	for z in self.clientes:
+    		if z[2]== id and z[3]== key:
+    			newaccount= [key,self.accnum,initialvalue,"Unblock"]
+    			z.append(newaccount)
+    			self.cuentasgen.append(newaccount)
+    			self.accnum+=1
+    			return "Cuenta creada"
+    			pass
+    	return "Cliente no encontrado, no se pudo crear la cuenta"
+```
+* Métodos:
+
+`Block_unblock`:
+
+``` phyton
+    def Block_Unblockacc(self,idacc,key,state):
+    	cont=0
+    	for z in self.cuentasgen:
+    		if z[0]==key and str(z[1])== idacc:
+    			self.cuentasgen[cont][3]= state
+    			self.update_account(idacc)
+    			return "Estado de cuenta cambiado"
+    		cont+=1
+    	return "Cuenta no encontrada, o clave incorrecta"
+```
+
+`Deposit`:
+
+``` phyton
+    def Deposit(self, idacc,ammount):
+    	try:
+    		int(initialvalue)
+    	except:
+    		return "Valor a insertar no valido"
+    	cont=0
+    	for z in self.cuentasgen:
+    		##print(z[1])
+    		##print(idacc)
+    		if str(z[1])==idacc:
+
+    			if z[3]=="Block":
+    				return "cuenta bloqueada"
+    			else:
+
+    				amount2 = int(self.cuentasgen[cont][2])+int(ammount)
+    				self.cuentasgen[cont][2]=str(amount2)
+    				self.update_account(idacc)
+    				return "Deposito realizado"
+    		cont+=1
+
+    	return "Error al realizar el deposito cuenta inexistente"
+```
+
+`Withdrawal`:
+
+```phyton
+    def withdrawal(self, idacc, ammount, key):
+    	try:
+    		int(ammount)
+    	except:
+    		return "Valor a insertar no valido"
+    	cont=0
+    	for z in self.cuentasgen:
+    		if z[0]==key and str(z[1])==idacc:
+    			if z[3]== "Block":
+    				return "Cuenta bloqueada"
+    			elif int(z[2])-int(ammount)<0:
+    				return "No se tienen los fondos suficientes en la cuenta"
+    			else:
+    				ammount2=int(self.cuentasgen[cont][2])-int(ammount)
+    				self.cuentasgen[cont][2]= str(ammount2)
+    				self.update_account(z[1])
+    				return "Retiro realizado"
+    		cont+=1
+    	return "Error al realizar el retiro"
+```
+
+`Transfer_money`:
+
+``` phyton
+    def transfer_money(self, idacc1, key, idacc2, ammount):
+    	try:
+    		int(ammount)
+    	except:
+    		return "Valor a insertar no valido"
+    	k=self.withdrawal(idacc1,ammount, key)
+    	if k== "Retiro realizado":
+    		res=self.Deposit(idacc2,ammount)
+    		if res== "Deposito realizado":
+    			return "Transferencia realizada"
+    			pass
+    		else:
+    			return res
+    	else:
+    		return k
+
+
+```
 
 ### Comunicación
 
+Para la comunicación entre los dos programas se implementaron tuberías con nombre, a continuación se muestran los dos métodos de atención:
+
+* Login del cliente:
+
+Cuando el servidor iniciaba, creaba un hilo que estuviera pendiente de las suscripciones del cliente (sea el cliente del banco o banquero), el cual se abría una tubería solo para especificación del path en donde se creaba la tubería para la atención del servidor.
+
+``` phyton 
+    def thread_pipe(self):
+
+    	while(1):
+    		fifo=open(self.path, "rb")
+    		#os.ftruncate(self.path,self.bufferSize)
+    		#print(fifo)
+    		str1=fifo.readline()
+    		#print(type(str1))
+    		#print(str1)
+    		cont=0
+    		str2= str(str1)
+    		newstr= "".join(str2)
+    		newstr2= newstr.split(';')
+    		#print(type(str2))
+    		#print(newstr2[1]+";"+newstr2[2])
+    		fifo.close()
+    		entro=0
+    		for z in self.clientes:
+    			if z[2]==newstr2[1] and z[3]== newstr2[2]:
+    				msgg="Hola "+z[0]+ " "+z[1]
+    				entro=1
+    		if entro==0:
+    			msgg= "Error al inicar sesion"
+    			pass    		
+    		fifo= open(self.path,"w")
+    		st1out= msgg
+    		fifo.write(st1out)
+    		fifo.close()
+
+```
+
+
+* Atención del servicio:
+
+Fue necesario implementar hilos para atender a cada cliente, debido a que se debía estar pendiente de la tubería y realizar operaciones que cada cliente requiera. Cada hilo creaba y atendía cada tubería, posteriormente esperaba a que hubiese una cadena de caracteres en la tubería, se leía el primer caracter y se atendía de acuerdo al caracter recibido.
+
+``` phyton
+
+def Thread_datapipe(self):
+    	while(1):
+    		fifo=open(self.pathdatapipe,"rb")
+    		str1=fifo.readline()
+    		str2= str(str1)
+    		newstr= "".join(str2)
+    		newstr2= newstr.split(';')
+    		#print(type(str2))
+    		##print(newstr2)
+    		#print(newstr2[1]+";"+newstr2[2])
+    		fifo.close()
+    		if newstr2[1]=="1":
+    			dataout = self.consult_client_accounts(newstr2[2])
+    		if newstr2[1]=="2":
+    			#print(newstr2[3])
+    			dataout= self.Deposit(newstr2[2],newstr2[3])
+    		if newstr2[1]=="3":
+    			dataout= self.withdrawal(newstr2[2],newstr2[3],newstr2[4])
+
+
+    		fifo= open(self.pathdatapipe,"w")
+    		st1out= dataout
+    		fifo.write(st1out)
+    		fifo.close()
+```
+
 # Conclusiones
+
+
