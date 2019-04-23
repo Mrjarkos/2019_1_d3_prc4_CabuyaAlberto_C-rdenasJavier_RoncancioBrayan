@@ -127,6 +127,8 @@ private:
 ### Programa Interfaz Oficinista Phyton
 
 
+<img src="URL_DE_LA_IMAGEN" />
+
 
 ### Servidor (Phyton)
 
@@ -339,5 +341,11 @@ def Thread_datapipe(self):
 ```
 
 # Conclusiones
+
+* El lenguaje de programación Phyton tiene una nomenclatura facil para el usuario que programa, debido a ello facilita la comprensión y elaboración de un programa, por ejemplo, el auto asignamiento del tipo de variable, evita que se presenten errores en la utilización de las variables; además se pudo observar, que el lenguaje presenta sobrecargas en su método self. Pero se pudo apreciar que al ser un lenguaje interpretado necesita mayor tiempo para la ejecución de un programa en comparación a lenguajes compilados o ensamblados. 
+
+* Para poder comunicar dos programas escritos en diferentes lenguajes de programación, en phyton es muy facil usando pipes o memoria compartida; para este caso en especifico se usaron pipes o tuberias debido a que la memoria compartida no esta disponible para las versiones que se usaron de phyton. 
+
+* Desde un punto de vista estructurado el programa que se realizo, se puede observar que el programa no presenta una programación orientada a objetos, por lo cual, se ve cierto nivel de complejidad para la comprensión del codigo; al aplicar la programación orientada a objetos se hubiese aumentado la legitimidad de dicho código y se hubiesen podido aprovechar propiedades como polimorfismo, encapsulamiento, herencia. 
 
 
