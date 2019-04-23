@@ -118,7 +118,7 @@ class Getaccountdataac(QWidget):
 		Name1= self.Name.text()
 		Lastname= self.Lastname.text()
 		cc=self.cc.text()
-		contra= self.contrasea.toPlainText()
+		contra= self.contrasea.text()
 		oldid=self.money.text()
 		contra= self.contrasea.text()
 		msg= self.arg.update_client(Name1,Lastname,cc,oldid,contra)
@@ -157,17 +157,17 @@ class Mostrarlist(QMainWindow):
 			item= self.argv.clientes[x].copy()
 			str1= "Cliente: "+" Nombre: "+item[0]+" apellido: "+item[1]+" cc: "+item[2]
 			cont2=0
-			for z in self.argv.clientes[x]:
-				cont2+=1
-			cont2=cont2-4
-			for y in range(0,cont2):				
-				item2= self.argv.cuentasgen[y+cont3].copy()
+			#for z in self.argv.clientes[x]:
+			#	cont2+=1
+			cont2=len(self.argv.clientes[x])
+			for y in range(4,cont2):				
+				item2= self.argv.clientes[x][y].copy()
 				#item[2]= str(item[2])
 				#item[3]= str(item[3])
 				
 				item2[1]=str(item2[1])
 				#item2[2]=str(item2[2])
-				str2= " id: "+item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]
+				str2= " id: "+item2[1]+" Saldo: "+ item2[2]+ " Estado: "+item2[3]+ "\n"
 				
 				item3= [str1, str2]
 				str3= ' cuenta: '.join(item3)
@@ -367,7 +367,7 @@ class BankOfficer():
     		newstr= "".join(str2)
     		newstr2= newstr.split(';')
     		#print(type(str2))
-    		print(newstr2)
+    		##print(newstr2)
     		#print(newstr2[1]+";"+newstr2[2])
     		fifo.close()
     		if newstr2[1]=="1":
@@ -473,10 +473,10 @@ class BankOfficer():
     	for z in self.clientes:
     		if str(z[2])== id:
     			leng= len(z)
-    			datout= ";"
+    			datout= "Cuentas:\n"
     			for x in range(4,leng ):
     				#print(z)
-    				datout= datout+str(z[x][1])+";"+z[x][2]+";"
+    				datout= datout+" id: "+str(z[x][1])+" Saldo: "+z[x][2]+"\n"
     			return datout	
 
     def consul_account(self, id):

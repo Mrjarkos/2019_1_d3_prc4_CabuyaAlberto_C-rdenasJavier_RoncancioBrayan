@@ -6,7 +6,7 @@
 ** WARNING! All changes made in this file will be lost!
 *****************************************************************************/
 
-#include "../Bank/clientinterface.h"
+#include "../2019_1_d3_prc4_CabuyaAlberto_C-rdenasJavier_RoncancioBrayan/Bank/clientinterface.h"
 #include <QtCore/qbytearray.h>
 #include <QtCore/qmetatype.h>
 #if !defined(Q_MOC_OUTPUT_REVISION)

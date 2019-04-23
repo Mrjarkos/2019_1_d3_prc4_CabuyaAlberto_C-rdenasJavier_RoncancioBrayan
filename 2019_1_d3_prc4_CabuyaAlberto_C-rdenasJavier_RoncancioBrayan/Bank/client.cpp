@@ -42,7 +42,7 @@ void Client::verifyClient(){
           read(fd,resul, msjzise);
           //qDebug()<<"cc:"<<(char *)resul;
 
-          printf("%s", (char *)resul);
+          //printf("%s", (char *)resul);
           strcpy(msg,(char* )resul);
           string msg2= msg;
           if(msg2=="Error al inicar sesion"){

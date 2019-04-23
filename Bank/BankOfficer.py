@@ -367,7 +367,7 @@ class BankOfficer():
     		newstr= "".join(str2)
     		newstr2= newstr.split(';')
     		#print(type(str2))
-    		print(newstr2)
+    		#print(newstr2)
     		#print(newstr2[1]+";"+newstr2[2])
     		fifo.close()
     		if newstr2[1]=="1":
@@ -473,10 +473,10 @@ class BankOfficer():
     	for z in self.clientes:
     		if str(z[2])== id:
     			leng= len(z)
-    			datout= ";"
+    			datout= "Cuentas: "
     			for x in range(4,leng ):
     				#print(z)
-    				datout= datout+str(z[x][1])+";"+z[x][2]+";"
+    				datout= datout+"id: "+str(z[x][1])+"Saldo"+z[x][2]+";"
     			return datout	
 
     def consul_account(self, id):

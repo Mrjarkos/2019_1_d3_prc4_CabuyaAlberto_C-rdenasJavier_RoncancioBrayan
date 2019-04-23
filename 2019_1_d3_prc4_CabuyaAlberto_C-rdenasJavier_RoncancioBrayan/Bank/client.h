@@ -1,6 +1,9 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 #include "account.h"
+#include <algorithm>
+#include <iterator>
+#include <vector>
 #define pipename "/tmp/myfifo"
 #define pipenamedata "/tmp/myfifo2"
 #define msjzise 1000
