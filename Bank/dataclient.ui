@@ -15,7 +15,7 @@
   </property>
   <property name="windowIcon">
    <iconset>
-    <normaloff>../../../../../Descargas/45587814-monedas-moneda-icono-de-moneda-vector-de-imagen-también-se-puede-utilizar-para-la-venta-el-viernes-neg.jpg</normaloff>../../../../../Descargas/45587814-monedas-moneda-icono-de-moneda-vector-de-imagen-también-se-puede-utilizar-para-la-venta-el-viernes-neg.jpg</iconset>
+    <normaloff>m.jpg</normaloff>m.jpg</iconset>
   </property>
   <property name="styleSheet">
    <string notr="true">QWidget{
