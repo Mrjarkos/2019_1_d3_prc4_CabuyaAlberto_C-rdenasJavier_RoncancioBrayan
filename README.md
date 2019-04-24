@@ -75,11 +75,11 @@ Para el diseño de la interfaz grafica se desarrolló gracias a la herramienta d
 
 El `programa` cuando inicia muestra la siguiente gui, la cual pide usuario y contraseña para poder proceder con la transacción que quiera realizar, la cual muestra la siguiente gui:
 
-<img src="https://www.dropbox.com/s/6ggp29b48orajmj/intrfaz%20usr2.png?dl=0" />
+<img src="intrfaz usr2.png" />
 
 Una vez validado los datos del usuario, se muestra una nueva ventana, en donde el cliente puede interactuar con el servidor mediante la siguiente interfaz:
 
-<img src="https://www.dropbox.com/s/0nypkhgrtv83c0t/interfazusuario.png?dl=0" />
+<img src="interfazusuario.png" />
 
 En esta ventana el cliente podrá realizar operaciones de consulta de saldo, de cuentas o depositar o retirar dinero. Si desea realizar otras operaciones como bloquear una cuenta, deberá realizarlo exclusivamente en el banco.
 
@@ -127,7 +127,7 @@ private:
 ### Programa Interfaz Oficinista Phyton
 
 
-<img src="https://www.dropbox.com/s/7nn9qombz421moj/interface_banquero.png?dl=0" />
+<img src="interface_banquero.png" />
 
 
 ### Servidor (Phyton)
